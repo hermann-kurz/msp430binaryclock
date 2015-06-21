@@ -1,7 +1,7 @@
 # msp430binaryclock
 ## Description
 A simple binary clock, using an MSP4302452 on a TI Launchpad.
-The [Energia IDE](www.energia.nu) (an Arduino IDE with support for MSP430) is used for compiling/uploading the software. Hours and minutes are displayed in binary form.
+The [Energia IDE](http://www.energia.nu) (an Arduino IDE with support for MSP430) is used for compiling/uploading the software. Hours and minutes are displayed in binary form.
 ## Crystal
 You have to solder the 32kHz crystal to the designated solder pads on the TI Launchpad.
 ## LEDs
