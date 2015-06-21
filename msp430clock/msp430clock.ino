@@ -1,4 +1,5 @@
-// Patched (for using TIMER0) RTC library because we use MSP430G2452
+// Patched (for using TIMER0) RTC library because we use MSP430G2452 which 
+// only has TIMER0
 // http://xv4y.radioclub.asia/2012/05/22/bibliotheque-rtc-pour-le-msp430/
 #include <sRTCsec.h>
 #include <legacymsp430.h>
@@ -7,7 +8,7 @@
 #define minuteBits 6
 #define M0 P1_5
 #define M1 P1_4
-#define M2 P1_3
+#define M2 P2_0
 #define M3 P1_2
 #define M4 P1_1
 #define M5 P1_0
@@ -19,10 +20,6 @@
 #define H3 P1_6
 #define H4 P1_7
 
-// Offset for startup
-// TODO set offset manually
-#define HO 16
-#define MO 43
 
 // Instantiate RTC
 RealTimeClockSec myRTC;
@@ -36,6 +33,7 @@ int minutePins[] = {
   M0, M1, M2, M3, M4, M5
 };
 
+int buttonState = LOW;
 
 byte currentMinute = 0;
 byte currentHour = 0;
@@ -51,7 +49,11 @@ void setup() {
   for (int thisPin = 0; thisPin < minuteBits; thisPin++)  {
     pinMode(minutePins[thisPin], OUTPUT);      
   };
+// input pin  
+  pinMode(PUSH2, INPUT_PULLUP);
 
+// Init RTC to defaults
+  myRTC.Set_Time(0, 0, 0);
 }
 
 void loop() {
@@ -61,13 +63,19 @@ void loop() {
   currentHour = myRTC.RTC_hr;
   
 //display current time  
-  writeMinute((currentMinute +MO) % 60);
-  writeHour((currentHour +HO) % 24);
+  writeMinute(currentMinute % 60);
+  writeHour(currentHour % 24);
+
+// Increment minute if button is pushed  
+  buttonState = digitalRead(PUSH2);
+  if (buttonState == LOW){
+    myRTC.Inc_min();
+  }
   sleep(100);
 }
 
 void writeMinute(byte minute){
-  int bitMask = 1;
+  byte bitMask = 1;
   for (int bitNo = 0; bitNo < minuteBits; bitNo ++) {
     if ((bitMask & minute) != 0){
       digitalWrite(minutePins[bitNo], HIGH);
@@ -79,7 +87,7 @@ void writeMinute(byte minute){
 };
 
 void writeHour(byte hour){
-  int bitMask = 1;
+  byte bitMask = 1;
   for (int bitNo = 0; bitNo < hourBits; bitNo ++) {
     if ((bitMask & hour) != 0){
       digitalWrite(hourPins[bitNo], HIGH);
