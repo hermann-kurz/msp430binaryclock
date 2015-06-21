@@ -1,8 +1,8 @@
-# msp430clock
+# msp430binaryclock
 ## Work in progress
 A simple binary clock, using an MSP4302452 on a TI Launchpad.
-The Energia IDE (an Arduino clone for MSP430) is used for compiling/uploading the software.
-You need 6 LEDs for the minutes and 5 LEDs for the hours. Connect them using an appropriate resistor:
+The Energia IDE (an Arduino clone for MSP430) is used for compiling/uploading the software. Hours and minutes are displayed in binary form.
+You need 6 LEDs for the minutes and 5 LEDs for the hours. Connect them using an appropriate resistor (ie 220 Ohms) to these pins:
 
 *Minutes*
 
@@ -24,3 +24,5 @@ Bit | Pin
 2 | P2_5
 3 | P2_6
 4 | P2_7
+
+Press  Switch 2 on P1_3 to set the clock.
