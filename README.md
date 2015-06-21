@@ -29,3 +29,5 @@ Bit | Pin
 4 | P2_7
 
 Press  Switch 2 on P1_3 to set the clock.
+## Breadboard ##
+![Binary clock on breadboard](msp430binaryclock-breadboard.png?raw=true "Binary clock on breadboard")
